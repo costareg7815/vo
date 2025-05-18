@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voice Art - Transform Text to Engaging Videos</title>
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .mood {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .mood:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        .all {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Navigation Sidebar */
+        .nav {
+            width: 350px;
+            background: white;
+            padding: 2rem;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 10;
+        }
+
+        .nav h1 {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav h1 span {
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+
+        /* Form Styles */
+        #createVideosForm {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-div {
+            margin-bottom: 1.5rem;
+        }
+
+        #script {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .content {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            resize: none;
+            min-height: 120px;
+        }
+
+        .content:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            margin-top: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            font-size: 0.9rem;
+            background-color: white;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .photo-select {
+            margin: 1.5rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        #selectedBanner {
+            width: 100%;
+            height: 180px;
+            border-radius: var(--border-radius);
+            background-color: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 2px dashed #d1d5db;
+            transition: var(--transition);
+        }
+
+        #selectedBanner:hover {
+            border-color: var(--primary);
+        }
+
+        #selectedBanner img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .btn-img {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-img:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-img span {
+            font-size: 1.1rem;
+        }
+
+        .effect-div {
+            margin-bottom: 1.5rem;
+        }
+
+        .effects {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .effects:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .kira1 {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .kira1:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .create-div {
+            margin-top: auto;
+        }
+
+        .create-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .create-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        footer {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        footer a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        footer a:hover {
+            color: var(--primary);
+        }
+
+        /* Main Content Area */
+        .pages {
+            flex: 1;
+            padding: 2rem 3rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            margin: 1.5rem;
+            box-shadow: var(--box-shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .pages a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .pages a:hover {
+            background-color: #f0f4ff;
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .pages a::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .pages a:hover::before {
+            opacity: 1;
+        }
+
+        .sign {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 8px 16px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: var(--transition);
+            z-index: 100;
+        }
+
+        .sign:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        /* Instructions Section */
+        .cons {
+            position: fixed;
+            right: 2rem;
+            bottom: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            z-index: 100;
+        }
+
+        .cons > div {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 250px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .cons > div:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .cons span {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .cons p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .cons {
+                flex-direction: column;
+                right: 1rem;
+                bottom: 1rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .all {
+                flex-direction: column;
+            }
+
+            .nav {
+                width: 100%;
+                padding: 1.5rem;
+            }
+
+            .pages {
+                margin: 0;
+                border-radius: 0;
+                padding: 1.5rem;
+            }
+
+            .cons {
+                position: static;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                margin-top: 2rem;
+                padding: 0 1.5rem;
+            }
+
+            .cons > div {
+                width: calc(50% - 0.75rem);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cons > div {
+                width: 100%;
+            }
+
+            .pages a {
+                justify-content: center;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .nav, .pages, .cons > div {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .pages { animation-delay: 0.1s; }
+        .cons > div:nth-child(1) { animation-delay: 0.2s; }
+        .cons > div:nth-child(2) { animation-delay: 0.3s; }
+        .cons > div:nth-child(3) { animation-delay: 0.4s; }
+        .cons > div:nth-child(4) { animation-delay: 0.5s; }
+		
+		
+		.effect-div {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.effect-div label {
+  font-size: 1rem;
+  margin-bottom: 8px;
+  color: #374151; /* رمادي غامق */
+  font-weight: 500;
+}
+
+.effect-div input[list] {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db; /* حدود رمادية */
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #111827; /* أسود ناعم */
+  background-color: #f9fafb;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.effect-div input[list]:focus {
+  border-color: #6366f1; /* لون بنفسجي فاتح */
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.effect-div input[list]::placeholder {
+  color: #9ca3af; /* placeholder رمادي */
+}
+
+    </style>
+</head>
+<body>
+    <button class="fa6-solid--sun mood"><i class="fas fa-sun"></i></button>
+    <div class="all">
+      <div class="nav">
+        <h1>Voice Art <i class="fas fa-microphone-alt"></i></h1>
+        <form id="createVideosForm" action="/create_videos" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+          <div class="content-div">
+            <p id="script">Script</p>
+            <textarea class="content" id="text" name="text" required placeholder="Add your script here..."></textarea>
+            <select name="voice">
+                <option value="female_1">sara</option>
+                <option value="female_2">hodi</option>
+                <option value="male_1">akram</option>
+                <option value="female_3">Female Voice 3</option>
+                <option value="male_2">Male Voice 2</option>
+            </select>
+            <input type="file" class="img-input" id="image" name="image" accept="image/*" required style="display: none;" />
+          </div>
+          <div class="photo-select">
+            <div id="selectedBanner" class="dis-img">
+                <i class="fas fa-image" style="font-size: 2rem; color: #d1d5db;"></i>
+                <p style="margin-top: 10px; color: #9ca3af;">No image selected</p>
+            </div>
+            <button type="button" class="btn-img" onclick='document.getElementById("image").click()'>
+              Select Photo <i class="fas fa-image"></i>
+            </button>
+          </div>
+          <div class="effect-div">
+           <div class="effect-div">
+  <label for="effectInput">اختر تأثير (اختياري):</label>
+  <input list="effectOptions" id="effectInput" name="effect" placeholder="اختر تأثيرًا">
+  <datalist id="effectOptions">
+      <option value="grayscale">
+      <option value="blur">
+      <option value="invert">
+      <option value="edge">
+      <option value="resize">
+      <option value="crop">
+      <option value="contrast">
+      <option value="rotate">
+      <option value="flip">
+      <option value="brightness">
+      <option value="sepia">
+      <option value="vignette">
+      <option value="noise">
+      <option value="motion_blur">
+      <option value="gaussian_noise">
+      <option value="pencil_sketch">
+  </datalist>
+</div>
+
+          </div>
+          <input type="number" id="videoCount" name="videoCount" value="1" min="1" max="1" required class="kira1" placeholder="Number of videos">
+          <div class="create-div">
+            <button type="submit" class="create-btn" onclick='document.querySelector(".g-vid").classList.add("show")'>
+              <i class="fas fa-magic"></i> Create Now
+            </button>
+			<div id="progressContainer" style="display: none; margin-top: 20px;">
+  <label>Progress:</label>
+  <div style="width: 100%; background-color: #e5e7eb; border-radius: 6px; overflow: hidden;">
+    <div id="progressBar" style="width: 0%; height: 16px; background-color: #6366f1; transition: width 0.4s ease;"></div>
+  </div>
+  <p id="progressText" style="margin-top: 5px; font-size: 0.9rem; color: #4b5563;">0% completed</p>
+
+  <ul id="videoQueue" style="list-style: none; padding: 0; margin-top: 15px; font-size: 0.9rem;">
+    <!-- يتم ملؤها تلقائيًا -->
+  </ul>
+</div>
+
+          </div>
+        </form>
+        <footer>
+          <a href="#">Developers</a>
+          <span>·</span>
+          <a href="#">Contact us</a>
+        </footer>
+      </div>
+      <div class="pages">
+        <a href="Videos.html"><i class="fas fa-video"></i> My Videos</a>
+        <a href="#"><i class="fas fa-tags"></i> Categories</a>
+        <a href="#"><i class="fas fa-graduation-cap"></i> Learn</a>
+        <a href="#"><i class="fas fa-crown"></i> Go Pro</a>
+      </div>
+      <a href="sign.html" class="sign"><i class="fas fa-user"></i> Sign in</a>
+    </div>
+    <div class="cons">
+      <div class="ax">
+        <i class="fas fa-align-left"></i>
+        <p>First: Add any script you want to turn into voice</p>
+      </div>
+      <div class="im">
+        <i class="fas fa-image"></i>
+        <p>Second: Add any image you want to put voice on</p>
+      </div>
+      <div class="fx">
+        <i class="fas fa-sliders-h"></i>
+        <p>Third: You may add effects to your video</p>
+      </div>
+      <div class="cr">
+        <i class="fas fa-rocket"></i>
+        <p>Finally: Press create to generate an awesome video</p>
+      </div>
+    </div>
+
+    <script>
+        // Display selected image preview
+        document.getElementById('image').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const banner = document.getElementById('selectedBanner');
+                    banner.innerHTML = '';
+                    const img = document.createElement('img');
+                    img.src = event.target.result;
+                    banner.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Form validation
+        function validateForm() {
+            const text = document.getElementById('text').value.trim();
+            const image = document.getElementById('image').files.length;
+            
+            if (!text) {
+                alert('Please enter a script');
+                return false;
+            }
+            
+            if (!image) {
+                alert('Please select an image');
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Dark mode toggle (placeholder functionality)
+        document.querySelector('.mood').addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            // You would need to add dark mode styles and save preference
+        });
+    </script>
+	<script>
+document.getElementById("createVideosForm").addEventListener("submit", function (e) {
+  const count = parseInt(document.getElementById("videoCount").value) || 1;
+  const progressContainer = document.getElementById("progressContainer");
+  const progressBar = document.getElementById("progressBar");
+  const progressText = document.getElementById("progressText");
+  const videoQueue = document.getElementById("videoQueue");
+
+  // إظهار الشريط
+  progressContainer.style.display = "block";
+  progressBar.style.width = "0%";
+  progressText.innerText = "0% completed";
+  videoQueue.innerHTML = "";
+
+  // إنشاء قائمة انتظار مبدئية
+  for (let i = 1; i <= count; i++) {
+    const li = document.createElement("li");
+    li.innerText = `Waiting: Video ${i}`;
+    li.id = `queue-item-${i}`;
+    videoQueue.appendChild(li);
+  }
+
+  // تحديث تقدمي وهمي (للشكل فقط)
+  let current = 0;
+  const total = count;
+
+  const interval = setInterval(() => {
+    current++;
+    const percent = Math.min(Math.round((current / total) * 100), 100);
+    progressBar.style.width = `${percent}%`;
+    progressText.innerText = `${percent}% completed`;
+
+    if (current <= total) {
+      const item = document.getElementById(`queue-item-${current}`);
+      if (item) item.innerText = `✔️ Completed: Video ${current}`;
+    }
+
+    if (current === total) {
+      clearInterval(interval);
+    }
+  }, 1000); // تقدير الوقت، يمكن تعديله حسب الوقت الفعلي
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض الفيديوهات</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #f8f9fc;
+            --accent-color: #2e59d9;
+        }
+        
+        body {
+            background-color: var(--secondary-color);
+            padding-top: 20px;
+            direction: rtl;
+            text-align: right;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 2rem 0;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(78, 115, 223, 0.3);
+        }
+        
+        .video-card {
+            margin-bottom: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            background-color: white;
+        }
+        
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .video-container video {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .video-info {
+            padding: 15px;
+        }
+        
+        .video-title {
+            font-weight: 700;
+            color: #343a40;
+            margin-bottom: 10px;
+        }
+        
+        .video-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .btn-action {
+            border-radius: 50px;
+            padding: 5px 15px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .btn-download {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-download:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .btn-share {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+        
+        .btn-share:hover {
+            background-color: #e9ecef;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        
+        .empty-state i {
+            font-size: 50px;
+            color: #adb5bd;
+            margin-bottom: 20px;
+        }
+        
+        .search-bar {
+            margin-bottom: 30px;
+        }
+        
+        .filter-buttons {
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .video-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn-action {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header text-center">
+            <h1 class="mb-3">الفيديوهات المولدة</h1>
+            <p class="mb-0">تصفح ومشاركة وتحميل الفيديوهات الخاصة بك</p>
+        </div>
+        
+        <div class="search-bar">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="ابحث عن فيديو..." aria-label="ابحث عن فيديو">
+                <button class="btn btn-primary" type="button">
+                    <i class="fas fa-search"></i> بحث
+                </button>
+            </div>
+        </div>
+        
+        <div class="filter-buttons">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-primary active">الكل</button>
+                <button type="button" class="btn btn-outline-primary">الأحدث</button>
+                <button type="button" class="btn btn-outline-primary">الأكثر مشاهدة</button>
+                <button type="button" class="btn btn-outline-primary">المفضلة</button>
+            </div>
+        </div>
+        
+        <div class="row">
+            {% if videos %}
+                {% for video in videos %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="video-card">
+                        <div class="video-container">
+                            <video controls>
+                                <source src="{{ video.url }}" type="video/mp4">
+                                متصفحك لا يدعم عرض الفيديو.
+                            </video>
+                        </div>
+                        <div class="video-info">
+                            <h5 class="video-title">{{ video.name }}</h5>
+                            <div class="text-muted small">
+                                <i class="far fa-calendar-alt me-1"></i> {{ video.date }}
+                                <span class="mx-2">|</span>
+                                <i class="far fa-eye me-1"></i> {{ video.views }} مشاهدة
+                            </div>
+                        </div>
+                        <div class="video-actions">
+                            <a href="{{ video.url }}" download class="btn btn-action btn-download">
+                                <i class="fas fa-download me-1"></i> تحميل
+                            </a>
+                            <button class="btn btn-action btn-share share-btn" data-url="{{ video.url }}">
+                                <i class="fas fa-share-alt me-1"></i> مشاركة
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <div class="empty-state">
+                        <i class="far fa-folder-open"></i>
+                        <h4>لا توجد فيديوهات متاحة</h4>
+                        <p class="text-muted">لم تقم بإنشاء أي فيديوهات بعد. ابدأ الآن لإنشاء أول فيديو لك.</p>
+                        <button class="btn btn-primary">إنشاء فيديو جديد</button>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        
+        {% if videos %}
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">السابق</a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">التالي</a>
+                </li>
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+
+    <!-- Modal for sharing -->
+    <div class="modal fade" id="shareModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">مشاركة الفيديو</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="shareLink" readonly>
+                        <button class="btn btn-outline-secondary" onclick="copyShareLink()">
+                            <i class="far fa-copy"></i> نسخ
+                        </button>
+                    </div>
+                    <div class="social-share text-center">
+                        <button class="btn btn-outline-primary mx-1">
+                            <i class="fab fa-facebook-f"></i>
+                        </button>
+                        <button class="btn btn-outline-info mx-1">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                        <button class="btn btn-outline-danger mx-1">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                        <button class="btn btn-outline-secondary mx-1">
+                            <i class="fas fa-envelope"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Share functionality
+        document.querySelectorAll('.share-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const videoUrl = this.getAttribute('data-url');
+                document.getElementById('shareLink').value = videoUrl;
+                const shareModal = new bootstrap.Modal(document.getElementById('shareModal'));
+                shareModal.show();
+            });
+        });
+        
+        function copyShareLink() {
+            const shareInput = document.getElementById('shareLink');
+            shareInput.select();
+            document.execCommand('copy');
+            alert('تم نسخ الرابط إلى الحافظة');
+        }
+        
+        // Simulate video data (for demo purposes)
+        if (document.querySelector('.empty-state')) {
+            setTimeout(() => {
+                document.querySelector('.empty-state i').className = 'far fa-smile-beam';
+                document.querySelector('.empty-state h4').textContent = 'مرحباً بك!';
+                document.querySelector('.empty-state p').textContent = 'هذه صفحة العرض عندما لا يوجد فيديوهات. يمكنك تخصيصها كما تريد.';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+v* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  scroll-behavior: smooth;
+}
+body::-webkit-scrollbar {
+  display: none;
+}
+.header {
+  position: relative;
+  border-bottom: none;
+  height: 82svh;
+  width: 100%;
+  background: linear-gradient(
+      hsla(0, 0%, 0%, 0.39) 40%,
+      hsla(0, 0%, 44%, 0.521) 83%,
+      #ffffff
+    ),
+    url("/static/images/1.jpg");
+  background-position: center;
+  background-size: cover;
+  margin-bottom: 18svh;
+  animation-name: pt1;
+  animation-timing-function: ease-in-out;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+}
+@keyframes pt1 {
+  20% {
+    background: linear-gradient(
+        hsla(0, 0%, 0%, 0.39) 40%,
+        hsla(0, 0%, 65%, 0.623) 83%,
+        #ffffff
+      ),
+      url("/static/images/2.jpg");
+    background-position: center;
+    background-size: cover;
+  }
+  40% {
+    background: linear-gradient(
+        hsla(0, 0%, 0%, 0.39) 40%,
+        hsla(0, 0%, 65%, 0.623) 83%,
+        #ffffff
+      ),
+      url("/static/images/3.jpg");
+    background-position: center;
+    background-size: cover;
+  }
+  60% {
+    background: linear-gradient(
+        hsla(0, 0%, 0%, 0.39) 40%,
+        hsla(0, 0%, 65%, 0.623) 83%,
+        #ffffff
+      ),
+      url("/static/images/4.jpg");
+    background-position: center;
+    background-size: cover;
+  }
+  80% {
+    background: linear-gradient(
+        hsla(0, 0%, 0%, 0.39) 40%,
+        hsla(0, 0%, 65%, 0.623) 83%,
+        #ffffff
+      ),
+      url("/static/images/5.jpg");
+    background-position: center;
+    background-size: cover;
+  }
+  100% {
+    background: linear-gradient(
+        hsla(0, 0%, 0%, 0.39) 40%,
+        hsla(0, 0%, 65%, 0.623) 83%,
+        #ffffff
+      ),
+      url("/static/images/1.jpg");
+    background-position: center;
+    background-size: cover;
+  }
+}
+.p-title {
+  padding-top: 10px;
+  padding-left: 15px;
+  color: #edaa5c;
+  font-size: 46px;
+}
+.nav {
+  align-items: center;
+  display: flex;
+  position: absolute;
+  right: 15px;
+  top: 18px;
+  gap: 20px;
+  font-weight: bold;
+}
+.link {
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #edaa5c;
+}
+h1 {
+  display: flex;
+  justify-content: center;
+  line-height: 50svh;
+  color: white;
+  font-size: 48px;
+}
+#mic {
+  font-size: 40px;
+  position: relative;
+  top: 8px;
+  left: -7px;
+}
+.sign {
+  outline: none;
+  width: 100px;
+  height: 40px;
+  color: #edaa5c;
+  border: #edaa5c solid 2px;
+  background-color: transparent;
+  font-size: 18px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.start {
+  color: white;
+  background-color: #cc812a;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  width: 250px;
+  height: 70px;
+  border-radius: 50px;
+  position: relative;
+  bottom: 10%;
+  left: 38%;
+  font-size: 25px;
+  align-items: center;
+  padding-bottom: 7px;
+}
+#arrow {
+  position: relative;
+  top: 5px;
+  padding-left: 3px;
+}
+.div-vid {
+  margin-bottom: 800px;
+}
+#script {
+  font-size: 18px;
+  padding-top: 10svh;
+  padding-bottom: 10px;
+}
+.img-input {
+  display: none;
+}
+.content-div {
+  padding-left: 15px;
+}
+.photo-select {
+  padding-left: 15px;
+}
+.content {
+  height: 200px;
+  width: 173svh;
+  border: solid #000 2px;
+  border-radius: 15px;
+  font-size: 16px;
+  padding-left: 8px;
+  padding-bottom: 155px;
+}
+.btn-img {
+  font-size: 18px;
+  padding-bottom: 9px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  border: none;
+  width: 200px;
+  height: 55px;
+  color: #000;
+  background-color: #edaa5c;
+}
+#img-icon {
+  position: relative;
+  top: 7px;
+  font-size: 25px;
+}
+.create-btn {
+  font-size: 18px;
+  width: 700px;
+  height: 50px;
+  color: #ffffff;
+  background-color: #cc812a;
+  border: none;
+  border-radius: 10px;
+}
+.create-div {
+  display: flex;
+  justify-content: center;
+}
+.div-vid {
+  margin-left: 15px;
+}
+h3 {
+  font-weight: 600;
+  margin-top: 85px;
+}
+.g-vid {
+  width: 25%;
+  height: 25%;
+  margin-top: 25px;
+  border-radius: 6px;
+  display: block;
+}
+.dis-img {
+  position: absolute;
+  left: 225px;
+  margin-top: 22px;
+}
+.show {
+  display: block;
+}
+
+.kira1 {
+  display: none;
+}
